@@ -141,10 +141,16 @@ bool dfs(int r, int c,
         int nr = r + dr[i];
         int nc = c + dc[i];
 
+        // Boundary checks
+        if (nr < 0 || nr > maze.size() || nc < 0 || nc > maze[0].size()) continue;
+        // Check if new cell is open space and unvisited
+        if (maze[nr][nc] == 1 || visited[nr][nc]) continue;
+
+        // Set parent row and column of the new cell
         parent_r[nr][nc] = r;
         parent_c[nr][nc] = c;
 
-        // if exit is found then return true, continue otherwise
+        // if exit is found then return true, continue loop otherwise
         if (dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c)) return true;
     }
 
