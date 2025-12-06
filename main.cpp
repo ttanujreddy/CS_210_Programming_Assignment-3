@@ -123,9 +123,12 @@ bool dfs(int r, int c,
          vector<vector<int>>& parent_r,
          vector<vector<int>>& parent_c,
          int exit_r, int exit_c) {
+    int N = maze.size();
+    int M = maze[0].size();
+
     // Boundary checks
-    if (r < 0 || r > maze.size()) return false;
-    if (c < 0 || c > maze[0].size()) return false;
+    if (r < 0 || r >= N) return false;
+    if (c < 0 || c >= M) return false;
 
     // Check if current cell is open and unvisited
     if (maze[r][c] == 1 || visited[r][c]) return false;
@@ -141,10 +144,16 @@ bool dfs(int r, int c,
         int nr = r + dr[i];
         int nc = c + dc[i];
 
+        // Boundary checks
+        if (nr < 0 || nr >= N || nc < 0 || nc >= M) continue;
+        // Check if new cell is open space and unvisited
+        if (maze[nr][nc] == 1 || visited[nr][nc]) continue;
+
+        // Set parent row and column of the new cell
         parent_r[nr][nc] = r;
         parent_c[nr][nc] = c;
 
-        // if exit is found then return true, continue otherwise
+        // if exit is found then return true, continue loop otherwise
         if (dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c)) return true;
     }
 
