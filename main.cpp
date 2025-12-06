@@ -123,22 +123,28 @@ bool dfs(int r, int c,
          vector<vector<int>>& parent_r,
          vector<vector<int>>& parent_c,
          int exit_r, int exit_c) {
+    // Boundary checks
     if (r < 0 || r > maze.size()) return false;
     if (c < 0 || c > maze[0].size()) return false;
 
+    // Check if current cell is open and unvisited
     if (maze[r][c] == 1 || visited[r][c]) return false;
 
     visited[r][c] = true;
 
+    // Check if exit is reached
     if (r == exit_r && c == exit_c) return true;
 
+    // Try going in all 4 directions iteratively
     for (int i = 0; i < 4; i++) {
+        // Compute indices of new row and column
         int nr = r + dr[i];
         int nc = c + dc[i];
 
         parent_r[nr][nc] = r;
         parent_c[nr][nc] = c;
 
+        // if exit is found then return true, continue otherwise
         if (dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c)) return true;
     }
 
@@ -183,17 +189,17 @@ int main() {
     // STUDENT WORK:
     // Call your DFS, track visited, and fill parent_r and parent_c
     // ------------------------------------------------------
-    // bool found = dfs(ent_r, ent_c, maze, visited, parent_r, parent_c, exit_r, exit_c);
+    bool found = dfs(ent_r, ent_c, maze, visited, parent_r, parent_c, exit_r, exit_c);
 
     // ------------------------------------------------------
     // STUDENT WORK:
     // If found, print the path
     // ------------------------------------------------------
-    // if (found) {
-    //     printPath(exitcell, parent_r, parent_c, ent_r, ent_c);
-    // } else {
-    //     cout << "\nNo path exists.\n";
-    // }
+    if (found) {
+        printPath(exitcell, parent_r, parent_c, ent_r, ent_c);
+    } else {
+        cout << "\nNo path exists.\n";
+    }
 
     return 0;
 }
